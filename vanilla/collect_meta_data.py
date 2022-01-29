@@ -1,8 +1,26 @@
 import sys,os
-from providers.atp import Atp 
+from providers.atp.rankings import Rankings 
 
-atp = Atp()
-player_links = atp.get_top_players_links(n=100)
+basedir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-id_dict = atp.extract_player_id_from_url(urls = player_links)
-print(id_dict)
+def collect_player_ids():
+    """[extract atp player ids from top player rankings and write to csv]
+
+    :param [url]:
+    ...
+    :return: [None]
+    :rtype: []
+    """
+    ranks = Rankings()
+    player_links = ranks.get_top_players_links(n=None)
+    ids = ranks.extract_player_id_from_url(links = player_links)
+    fp_player_ids = os.path.join(basedir, 'vanilla/io/out/atp_player_ids.csv')
+    ids.to_csv(fp_player_ids, index=False)
+    print('[SUCCESS] ATP player IDs written to {}'.format(fp_player_ids))
+
+
+
+
+
+
+# collect_player_ids()

@@ -7,7 +7,6 @@ class Website:
     def __init__(self, url:str):
         self.url = url
 
-    
     def get_links(self):
         reqs = requests.get(self.url)
         soup = BeautifulSoup(reqs.text, 'html.parser')
