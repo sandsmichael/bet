@@ -5,8 +5,7 @@ from providers.atp.player import Player
 
 basedir = os.path.dirname(os.path.abspath(__file__))
 
-
-class Stats(Player):
+class Activity(Player):
 
     def __init__(self, last_name:str = None, year:str = None, surface:str = None):
         """[retreive stats for a plyer from atp pllayer stats page]
@@ -26,7 +25,7 @@ class Stats(Player):
         self.last_name = last_name
         self.year = year
         self.surface = surface
-        self.name = "ATP_Player_Stats"
+        self.name = "ATP_Player_WinLoss"
 
     
     def get_player_url(self):
@@ -34,13 +33,8 @@ class Stats(Player):
         url = self.player_url + player_row.name.values[0] + '/'+ player_row.id.values[0] + '/' + f'player-stats?year{self.year}&surfaceType={self.surface}'
         return url
 
-
-    def get_stats_serve(self):
+    def get(self):
         web = Website(url = self.get_player_url())
         web.scrape()
         return web.scrape_table_to_df(div_node='id', div_identifier='playerMatchFactsContainer')[0]
 
-    def get_stats_return(self):
-        web = Website(url = self.get_player_url())
-        web.scrape()
-        return web.scrape_table_to_df(div_node='id', div_identifier='playerMatchFactsContainer')[1]

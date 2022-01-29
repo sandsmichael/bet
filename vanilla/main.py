@@ -4,10 +4,12 @@ from providers.atp.stats import Stats
 from extract.website import Website
 
 stats = Stats(last_name = 'djokovic', year='2021', surface='all')
+
 stats_url = stats.get_player_url()
 print(stats_url)
 
-web = Website(url = stats_url)
-web.scrape()
-frames  = web.scrape_table_to_df(div_node='id', div_identifier='playerMatchFactsContainer')
-df_serve, df_return = frames[0], frames[1]
+df_serve = stats.get_stats_serve()
+print(df_serve)
+
+df_return = stats.get_stats_return()
+print(df_return)
