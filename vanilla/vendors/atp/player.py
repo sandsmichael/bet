@@ -1,7 +1,7 @@
 import sys,os
 import pandas as pd
 from extract.website import Website
-from providers.atp.atp import Atp
+from vendors.atp.atp import Atp
 
 basedir = os.path.dirname(os.path.abspath(__file__))
 

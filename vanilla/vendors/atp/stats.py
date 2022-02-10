@@ -1,7 +1,7 @@
 import sys,os
 import pandas as pd
 from extract.website import Website
-from providers.atp.player import Player
+from vendors.atp.player import Player
 
 basedir = os.path.dirname(os.path.abspath(__file__))
 
@@ -38,9 +38,9 @@ class Stats(Player):
     def get_stats_serve(self):
         web = Website(url = self.get_player_url())
         web.scrape()
-        return web.scrape_table_to_df(div_node='id', div_identifier='playerMatchFactsContainer')[0]
+        return web.scrape_table_to_df(attrb='id', value='playerMatchFactsContainer')[0]
 
     def get_stats_return(self):
         web = Website(url = self.get_player_url())
         web.scrape()
-        return web.scrape_table_to_df(div_node='id', div_identifier='playerMatchFactsContainer')[1]
+        return web.scrape_table_to_df(attrb='id', value='playerMatchFactsContainer')[1]

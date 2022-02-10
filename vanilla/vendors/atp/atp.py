@@ -1,7 +1,7 @@
 import sys,os
 import pandas as pd
 from extract.website import Website
-from providers.provider import Provider
+from vendors.provider import Provider
 
 class Atp(Provider):
 

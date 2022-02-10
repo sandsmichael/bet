@@ -33,9 +33,9 @@ class Website:
         :param [div_node]: ["id" or "class"], defaults to [None]
         :param [div_identifier]: [identifier string of the div_node], defaults to [None]
         :param [child_node]: [identifier of the chid node object type to find], defaults to [None]
-        ...
+
         :raises [ErrorType]: [ErrorDescription]
-        ...
+
         :return: [links]
         :rtype: [list]
         """
@@ -46,17 +46,17 @@ class Website:
             for tag in tdTags:
                 print(tag.text)
 
-    def scrape_table_to_df(self, div_node:str, div_identifier:str=None,  ):
+    def scrape_table_to_df(self, elm = 'div', attrb:str='id', value:str=None,  ):
         """[]
 
         :param [div_node]: ["id" or "class"], defaults to [None]
         :param [div_identifier]: [identifier string of the div_node], defaults to [None]
-        ...
+
         :raises [ErrorType]: [ErrorDescription]
-        ...
+
         :return: [list of dataframes]
         :rtype: [list]
         """
-        table = self.soup.find_all("div", {div_node: div_identifier})
+        table = self.soup.find_all(elm, {attrb: value})
         frames = pd.read_html(str(table))
         return frames
