@@ -4,14 +4,6 @@ https://github.com/JeffSackmann/tennis_misc/
 '''
 
 
-game_states = {"{0, {0, 0}}", "{0, {0, 15}}", "{0, {0, 30}}", "{0, {0, 40}}",
-"{0, {15, 0}}", "{0, {15, 15}}", "{0, {15, 30}}", "{0, {15, 40}}",
-"{0, {30, 0}}", "{0, {30, 15}}", "{0, {40, 0}}", "{0, {40, 15}}",
-"{0, Deuce}", "{1, {0, 0}}", "{1, {0, 15}}", "{1, {0, 30}}", "{1, {0, 40}}",
-"{1, {15, 0}}", "{1, {15, 15}}", "{1, {15, 30}}", "{1, {15, 40}}",
-"{1, {30, 0}}", "{1, {30, 15}}", "{1, {40, 0}}", "{1, {40, 15}}", "{1, Deuce}",
-"{0, A Adv.}", "{1, A Adv.}", "{0, B Adv.}", "{1, B Adv.}", "A win", "B win"}
-
 '''
 f1: The chance Player A faults on the first serve
 p1: The chance Player A will win the point if the first serve is in
@@ -37,7 +29,7 @@ def ch(a, b):
     return fact(a)/(fact(b)*fact(a-b))
  
 def gameOutcome(s, a, b):
-    return ch((a+b), a)*(s**a)*((1-s)**b)*s
+    return `ch`((a+b), a)*(s**a)*((1-s)**b)*s
  
 def gameProb(s, v=0, w=0):
     ## function calculates the probability of server winning
@@ -436,7 +428,9 @@ def fiveodds(p3):
     p5 = (p1**3)*(4 - 3*p1 + (6*(1-p1)*(1-p1)))
     return p5
 
-print(gameProb(0.65, 0,0))
+
+
+# print(gameProb(0.65, 0,0))
 # print(setGeneral(65, 30, 0,0))
 # print(matchProb(0.65, 0,0))
 
