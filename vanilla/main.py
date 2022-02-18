@@ -42,4 +42,4 @@ from models import svm
 
 
 hms = HistoricalMatchStats(fname = 'atp_matches_2021.csv')
-hms.match_rows()
+hms.player_match_rows()
