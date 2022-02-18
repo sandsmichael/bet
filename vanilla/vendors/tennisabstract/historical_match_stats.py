@@ -1,17 +1,17 @@
 import pandas as pd
 import numpy as np
 import sys, os
+import random
 
-pd.set_option('display.max_rows', 10)
-pd.set_option('display.max_columns', 14)
-pd.set_option('display.width', 600)
-pd.set_option('display.expand_frame_repr', False)
+# pd.set_option('display.max_rows', 8)
+pd.set_option('display.max_columns', 12)
+pd.set_option('display.width', 1000)
+# pd.set_option('display.expand_frame_repr', False)
 
 
 
 
 class HistoricalMatchStats():
-
 
     def __init__(self, fname):
 
@@ -26,7 +26,6 @@ class HistoricalMatchStats():
 
         print(self.df.columns)
 
-
     def one_hot_encoding(self, df):
         non_numerics = df.select_dtypes(include=['object']) 
         dummies = pd.get_dummies(non_numerics)    # one hot encoding
@@ -39,13 +38,12 @@ class HistoricalMatchStats():
             df[c] = df[c].astype('category').cat.codes
         return df
 
-
     def winner_loser_split(self, df):
         winner = df.loc[:, 'winner_hand':'w_bpFaced'].merge(df[['match_num', 'tourney_name']], left_index=True, right_index=True) 
         winner['result'] = 1
         loser = df.loc[:, 'loser_hand':'l_bpFaced'].merge(df[['match_num', 'tourney_name']], left_index=True, right_index=True) 
         loser['result'] = 0 
-        meta = df[['surface', 'score', 'match_num', 'tourney_name']]
+        idcols = df[['surface', 'score', 'match_num', 'tourney_name']]
         return winner, loser
 
     def winner_loser_rename(self, dfx, dfy):
@@ -56,31 +54,31 @@ class HistoricalMatchStats():
             df.rename(columns={'p1_match_num':'match_num', 'p2_match_num':'match_num', 'p1_tourney_name':'tourney_name', 'p2_tourney_name':'tourney_name'}, inplace=True)
             df.set_index('match_num', inplace=True)
         df = pd.merge(dfx, dfy, on=['tourney_name', 'match_num'], how = 'inner')
-        df.reset_index(inplace=True, drop=True)
-        print(df)
-        print(df.columns)
+        df.reset_index(inplace=True)
         return df
     
     def winner_loser_shuffle(self, df):
         '''
         swap player 1 and player 2 stats for a given match to interchange the winner and looser stats
+            in the raw data, player 1 is the winner and player 2 is the looser.
+            take a random sample of rows and swap all p1 data with p2 data in each column
         '''
-        
         _df = df.copy()
+        randomlist = random.sample(range(0, len(df)),  int(0.5*len(df))) # random sample of row numbers
 
         p1cols = [c for c in df.columns if c.startswith('p1_')]
         p2cols = [c for c in df.columns if c.startswith('p2_')]
         for  c1,c2 in zip(p1cols, p2cols):
-            _df[c1] = df[c1.replace('p1_', 'p2_')]
-            _df[c2] = df[c1.replace('p2_', 'p1_')]
+            _df[c1].loc[_df.index.isin(randomlist)] = df[c1.replace('p1_', 'p2_')].loc[_df.index.isin(randomlist)]
+            _df[c2].loc[_df.index.isin(randomlist)] = df[c2.replace('p2_', 'p1_')].loc[_df.index.isin(randomlist)]
 
-        return _df
+        # print(_df[['p1_result', 'p2_result']].value_counts())
+        return _df[ ['match_num', 'tourney_name',  'p1_result', 'p2_result'] + [ col for col in _df.columns if col not in ['match_num', 'tourney_name',  'p1_result', 'p2_result'] ] ]
 
     def pre_process(self, cols):
         df = self.df[cols].dropna(how='any', axis=0)#.drop(columns = 'score')
         df = self.cat_encoding(df)
         return df
-
 
     def player_match_rows(self):
         '''
@@ -96,11 +94,7 @@ class HistoricalMatchStats():
         cols = self.cols
         df = self.pre_process(cols)
         winner, loser = self.winner_loser_split(df)
-        df = self.winner_loser_rename(winner, loser)
-        df = self.winner_loser_shuffle(df)
-        print(df)
-
-
+        return self.winner_loser_shuffle(self.winner_loser_rename(winner, loser))
 
 
     def result_rows(self):
