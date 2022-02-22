@@ -47,7 +47,7 @@ pd.set_option('display.max_columns', 12)
 ''' historical match data analysis'''
 hms = HistoricalMatchStats(fname = 'atp_matches_2021.csv')
 df = hms.player_match_rows()
-print(df.head())
+# print(df.head())
 ml.learn(df)
 
 

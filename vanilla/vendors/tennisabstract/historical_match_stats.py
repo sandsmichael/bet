@@ -24,7 +24,7 @@ class HistoricalMatchStats():
             'surface', 'score', 'match_num', 'tourney_name'
              ]   
 
-        print(self.df.columns)
+        # print(self.df.columns)
 
     def one_hot_encoding(self, df):
         non_numerics = df.select_dtypes(include=['object']) 
