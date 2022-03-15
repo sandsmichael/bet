@@ -16,9 +16,9 @@ class UltimateTennis(Provider):
 
 
     def get(self):
-        web = Website(url = self.live_scores)
+        web = Website(url = 'https://www.enetscores.com/')
         web.scrape()
         print(web.soup)
-        return web.parse_html(elm='div', attrib='class', value='wff_tennis_event_row', )
 
+        # web.parse_html(elm='a', attrib='title', value='Enetscores by Enetpulse' )
 
