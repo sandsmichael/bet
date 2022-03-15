@@ -10,7 +10,7 @@ from vendors.atp.activity import Activity
 from extract.website import Website
 
 from vendors.tennisabstract.historical_match_stats import HistoricalMatchStats
-from vendors.tennisabstract.tennisabstract import TennisAbstract
+from vendors.tennisabstract.tennisabstract import TennisAbstract, TennisAbstractEvent
 
 
 from vendors.ultimate.ultimatetennis import UltimateTennis
@@ -51,8 +51,13 @@ pd.set_option('display.max_columns', 12)
 # print(ult.get())
 
 
-tenab = TennisAbstract()
-tenab.get()
+# tenab = TennisAbstract().get()
+# # tenab.get_current_events_table()
+# tenab.get_current_event()
+
+tenabev = TennisAbstractEvent()
+tenabev.upcoming_matches()
+
 
 # hms = HistoricalMatchStats(fname = 'atp_matches_2021.csv')
 ''' historical match data analysis w machine learning'''
