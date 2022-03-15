@@ -60,3 +60,7 @@ class Website:
         table = self.soup.find_all(elm, {attrb: value})
         frames = pd.read_html(str(table))
         return frames
+
+
+    def parse_html(self, elm='div', attrib='class', value=None):
+        return self.soup.find_all(elm, {attrib: value})

@@ -11,6 +11,8 @@ from extract.website import Website
 
 from vendors.tennisabstract.historical_match_stats import HistoricalMatchStats
 
+from vendors.ultimate.ultimatetennis import UltimateTennis
+
 from models import probabilities
 from models import learnloop
 
@@ -43,17 +45,18 @@ pd.set_option('display.max_columns', 12)
 # print(df_act[-1])
 
 
+ult = UltimateTennis()
+print(ult.get())
 
-
+# hms = HistoricalMatchStats(fname = 'atp_matches_2021.csv')
 ''' historical match data analysis w machine learning'''
-hms = HistoricalMatchStats(fname = 'atp_matches_2021.csv')
 # df = hms.player_match_rows()
 # print(df.head())
 # learnloop.learn(df)
 
 
 ''' game set match and proposition probabilities'''
-probabilities.prob_of_prop_occurance()
+# probabilities.prob_of_prop_occurance()
 
 
 
