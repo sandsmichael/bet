@@ -23,7 +23,7 @@ class TennisAbstract(Provider):
         print(df)
 
 
-    def get_current_event(self):
+    def get_current_event_url(self):
         links = self.web.get_links()
         res = [l for l in links if '/current/' and 'ATP' in l and '_' not in l]
 
@@ -34,40 +34,12 @@ class TennisAbstract(Provider):
         return self.current_event_url
         
 
-
-class TennisAbstractEvent(TennisAbstract):
-    """ example  event:
-    http://www.tennisabstract.com/current/2022ATPIndianWells.html
-
-    """
-
-    def __init__(self):
-        super().__init__()
-        super().get()
-        self.event = self.get_current_event()
-        print(self.event)
-        self.get()
-
-
-    def get(self):
-        self.web = Website(url = self.event)
-        self.web.scrape()
-
-
-    def upcoming_matches(self):
-        res  = self.web.get_all_children_of_div(elm='span', attrib='id', attrib_value='upcoming', child_node = 'a')
-        print(res)
-
-        table = self.web.soup.find_all('table')
-        frames = pd.read_html(str(table))
-        print(len(frames))
-        print(frames[2].iloc[0].values)
-
-        return res
-
-
-    def completed():
-        pass
-
-    def forecasts():
-        pass
+    def get_current_events(self):
+        event_url = self.get_current_event_url()
+        print(event_url)
+        web = Website(url = event_url)
+        # web.scrape()
+        # print(web.scrape)
+        # df = web.get_all_children_of_div(elm='span', attrib='id', attrib_value='upcoming', child_node='a')
+        df = web.get_links()
+        print(df)

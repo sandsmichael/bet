@@ -60,15 +60,14 @@ class Website:
         from bs4 import BeautifulSoup, NavigableString, Tag
 
         myTag = self.soup.find(elm, {attrib: attrib_value}) 
-        print(myTag)
-        # for tag in myTag:
-        #     for body_child in myTag.children:
-        #         if isinstance(body_child, NavigableString):
-        #             continue
-        #         if isinstance(body_child, Tag):
-        #             tdTags = tag.findChildren(child_node, recursive=True)
-        #             for tag in tdTags:
-        #                 print(tag)
+        for tag in myTag:
+            for body_child in myTag.children:
+                if isinstance(body_child, NavigableString):
+                    continue
+                if isinstance(body_child, Tag):
+                    tdTags = tag.findChildren(child_node, recursive=True)
+                    for tag in tdTags:
+                        print(tag)
 
         # return myTag
 
