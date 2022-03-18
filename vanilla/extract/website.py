@@ -2,7 +2,33 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 
-class Website:
+
+import selenium
+import chromedriver_autoinstaller
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium import webdriver
+
+class WebBot():
+
+    def __init__(self, url:str, headless:bool=True):
+        chromedriver_autoinstaller.install()
+        options = Options()
+        options.headless = True
+        self.driver = webdriver.Chrome(options=options)
+        self.url = url
+        self.headless = headless
+
+    def scrape_headless(self):
+        self.driver.get(self.url)
+        self.soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+        if self.headless == True:
+            self.driver.quit()
+        return self.soup
+
+
+
+class Website(WebBot):
 
     headers_x = {
     'Access-Control-Allow-Origin': '*',
@@ -18,6 +44,7 @@ class Website:
 
     def __init__(self, url:str):
         self.url = url
+        super().__init__(url = self.url)
 
 
     def scrape(self, req_session:bool=True, headers=headers_x):
@@ -45,7 +72,7 @@ class Website:
             urls.append(link.get('href'))
         return urls
 
-    def get_all_children_of_div(self, elm:str, attrib:str, attrib_value:str=None, child_node:str=None):
+    def get_all_children_of_elem(self, elm:str, attrib:str, attrib_value:str=None, child_node:str=None):
         """[]
             elm =  div, span. etc
         :param [attrib]: ["id" or "class"], defaults to [None]
@@ -58,18 +85,18 @@ class Website:
         :rtype: [list]
         """
         from bs4 import BeautifulSoup, NavigableString, Tag
-
         myTag = self.soup.find(elm, {attrib: attrib_value}) 
-        for tag in myTag:
-            for body_child in myTag.children:
-                if isinstance(body_child, NavigableString):
-                    continue
-                if isinstance(body_child, Tag):
-                    tdTags = tag.findChildren(child_node, recursive=True)
-                    for tag in tdTags:
-                        print(tag)
+        # print(myTag.children)
+        childs = myTag.findAll(child_node)
+        return childs
+        #     if isinstance(tag, NavigableString):
+        #         continue
+        #     if isinstance(tag, Tag):
+        #         tag = tag.findChildren(child_node, recursive=True)
+        #             # for tag in tdTags:
+        #         print(tag)
 
-        # return myTag
+ 
 
 
     def scrape_table_to_df(self, elm = 'div', attrb:str='id', value:str=None,  ):
@@ -90,3 +117,5 @@ class Website:
 
     def parse_html(self, elm='div', attrib='class', value=None):
         return self.soup.find_all(elm, {attrib: value})
+
+

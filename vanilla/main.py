@@ -56,8 +56,7 @@ pd.set_option('display.max_columns', 12)
 # tenab.get_current_event()
 
 tenab = TennisAbstract()
-tenab.get()
-tenab.get_current_events()
+tenab.get_current_event_matches()
 
 
 # hms = HistoricalMatchStats(fname = 'atp_matches_2021.csv')
