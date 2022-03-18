@@ -47,16 +47,13 @@ pd.set_option('display.max_columns', 12)
 # print(df_act[-1])
 
 
-# ult = UltimateTennis()
-# print(ult.get())
+ult = UltimateTennis()
+print(ult.get_tournaments())
 
 
-# tenab = TennisAbstract().get()
-# # tenab.get_current_events_table()
-# tenab.get_current_event()
 
-tenab = TennisAbstract()
-tenab.get_current_event_matches()
+# tenab = TennisAbstract()
+# tenab.get_current_event_matches()
 
 
 # hms = HistoricalMatchStats(fname = 'atp_matches_2021.csv')

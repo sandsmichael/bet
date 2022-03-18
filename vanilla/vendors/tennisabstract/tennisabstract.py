@@ -53,7 +53,7 @@ class TennisAbstract(Provider):
         childs = web.get_all_children_of_elem(elm='span', attrib='id', attrib_value='upcoming', child_node='a')
         childs  = [str(c.get_text()) for c in childs if ('[' and ']')  not in str(c)] # values displaying H2H record are displayed like '[#-#]'
         
-        assert(len(childs)%2 == 0, "[ERROR] Scrape returned an odd number of players in  all matches!") # even number of players in events url's being retreived
+        assert(len(childs)%2 == 0,) # even number of players in events url's being retreived
 
         matches = [*zip(childs[::2], childs[1::2])] # slice in pairs of two and zip!
         return matches

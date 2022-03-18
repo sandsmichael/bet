@@ -13,14 +13,14 @@ class UltimateTennis(Provider):
         self.name = "UltimateTennis"
         self.base_url = "https://www.ultimatetennisstatistics.com"
         self.live_scores = self.base_url + "/liveScores"
+        self.tournaments = self.base_url + "/tournamentEvents"
 
 
-    def get(self):
-        web = Website(url = self.base_url)
-        web.scrape()
-
-        df =  web.parse_html(elm = 'div', attrib='class', value='wff_tennis_event' )
-        print(df)
-
+    def get_tournaments(self):
+        web = Website(url = self.live_scores)
+        web.scrape_headless()
+        print(web.soup)
+        # childs = web.get_all_children_of_elem(elm='tr', attrib='data-row-id', attrib_value='1', child_node='td')
+        # print(childs)        
         # web.parse_html(elm='a', attrib='title', value='Enetscores by Enetpulse' )
 
