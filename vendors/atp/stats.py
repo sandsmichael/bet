@@ -31,7 +31,7 @@ class Stats(Player):
     
     def get_player_url(self):
         player_row = self.get_player_id_row()
-        url = self.player_url + player_row.name.values[0] + '/'+ player_row.id.values[0] + '/' + f'player-stats?year{self.year}&surfaceType={self.surface}'
+        url = self.player_url + player_row.name.values[0] + '/'+ player_row.id.values[0] + '/' + f'player-stats?year={self.year}&surfaceType={self.surface}'
         return url
 
 
