@@ -5,7 +5,7 @@ from vendors.atp.winloss import WinLoss
 from vendors.atp.activity import Activity
 
 class Match:
-    
+
     ''' p1 = player 1 last name; p2 = player 2 last name
     '''
 
@@ -26,7 +26,7 @@ class Match:
         df = pd.concat(frames, axis=1)
         df = df.loc[:,~df.columns.duplicated()]
         df.set_index('metric', inplace=True)
-        print(df)        
+        # print(df)        
         return df
 
 
@@ -41,7 +41,7 @@ class Match:
         df = pd.concat(frames, axis=1)
         df = df.loc[:,~df.columns.duplicated()]
         df.set_index('index', inplace=True)
-        print(df)
+        # print(df)
         return df
 
 
@@ -55,9 +55,23 @@ class Match:
             df['tournament'] = df_act[i][1].iloc[0]
             frames.append(df)
         df = pd.concat(frames, axis=0, ignore_index=True)
-        print(df)
+        # print(df)
+        return df
 
-m = Match('nadal', 'ruud')
-m.build_serve_return_frame()
-m.build_win_loss_frame()
-m.build_activity_frame()
+
+
+    def build_prediction_frame(self) -> pd.DataFrame:
+        ''' build a match stats frame with features of both players for match result prediction
+        features:
+            'p1_hand', 'p1_rank','p1_ht', 'p1_ace','p1_svpt', 'p1_1stIn', 'p1_1stWon', 'p1_2ndWon', 'p1_SvGms', 'p1_bpSaved', 'p1_bpFaced', 
+            'p2_hand','p2_rank', 'p2_ht', 'p2_ace', 'p2_svpt', 'p2_1stIn', 'p2_1stWon', 'p2_2ndWon', 'p2_SvGms', 'p2_bpSaved', 'p2_bpFaced'
+        '''
+        pass
+
+
+
+
+# m = Match('nadal', 'ruud')
+# m.build_serve_return_frame()
+# m.build_win_loss_frame()
+# m.build_activity_frame()

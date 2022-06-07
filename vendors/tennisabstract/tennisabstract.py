@@ -30,7 +30,7 @@ class TennisAbstract(Provider):
         res = [l for l in links if '/current/' and 'ATP' in l and '_' not in l]
 
         if isinstance(res, list):
-            self.current_event_url  = res[0]
+            self.current_event_url  = res[0] #FIXME; get all events
         else:
             self.current_event_url  = res
         return self.current_event_url

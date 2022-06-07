@@ -17,6 +17,7 @@ from vendors.ultimate.ultimatetennis import UltimateTennis
 
 from models import probabilities
 from models import learnloop
+from models.probabilities import Probabilities
 
 pd.set_option('display.width', 1000)
 pd.set_option('display.max_columns', 12)
@@ -60,24 +61,34 @@ pd.set_option('display.max_columns', 12)
 
 #------------------------------------------------------
 
+
 # ult = UltimateTennis()
 # print(ult.get_tournaments())
 
 
 
 # tenab = TennisAbstract()
-# tenab.get_current_event_matches()
+# print(tenab.get_current_event_matches())
 
+
+
+
+#------------------------------------------------------
 
 # hms = HistoricalMatchStats(fname = 'atp_matches_2021.csv')
-''' historical match data analysis w machine learning'''
 # df = hms.player_match_rows()
-# print(df.head())
 # learnloop.learn(df)
 
 
+
 ''' game set match and proposition probabilities'''
-# probabilities.prob_of_prop_occurance()
+prob = Probabilities()
+ra = prob.expected_rank(atp_rank=1)
+rb = prob.expected_rank(atp_rank=100)
+print(ra, rb)
+print(prob.prob_win_at_match_start(Ra=ra, Rb=rb))
+
+
 
 
 ''' historical match data analysis'''
