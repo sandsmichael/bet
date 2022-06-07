@@ -86,9 +86,13 @@ prob = Probabilities()
 ra = prob.expected_rank(atp_rank=1)
 rb = prob.expected_rank(atp_rank=100)
 print(ra, rb)
-print(prob.prob_win_at_match_start(Ra=ra, Rb=rb))
+pa_match = prob.prob_win_at_match_start(Ra=ra, Rb=rb) # probability of a to win match
+print(pa_match)
+pa_game  = prob.prob_win_game(Pa=pa_match) # probability of a to win a game
+print(pa_game)
 
-
+point_probs = prob.win_point(ai=0.5, bi=0.5, ci=0.5, aav=0.5, di=0.5, ei=0.5)
+print(point_probs)
 
 
 ''' historical match data analysis'''

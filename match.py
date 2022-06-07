@@ -37,6 +37,24 @@ class Match:
             player_frames = [ wl.get_overall(), wl.get_pressure(), wl.get_environment(), wl.get_other() ]
             df = pd.concat(player_frames, axis=0, ignore_index=True)
             df.columns = ['index'] + [f'{p}_{c}' for c in df.columns if c != 'index']
+
+            split_list = ['_ytd', '_career']
+            for s in split_list:
+                label = f'{p}{s}'
+                new_label_win = f'{p}{s} win'
+                new_label_loss = f'{p}{s} loss'
+                df[[new_label_win, new_label_loss]] = df[label].str.split('-', 1, expand=True)
+                df.drop(label, axis=1, inplace=True)
+            
+            for c in df.columns:
+                try:
+                    df[c] = pd.to_numeric(df[c] )
+                except:
+                    pass
+            
+            cols = ['index'] + [p + c for c in ['_ytd pct','_ytd win','_ytd loss','_career pct','_career win','_career loss','_titles']]
+            df = df[cols]
+
             frames.append(df)
         df = pd.concat(frames, axis=1)
         df = df.loc[:,~df.columns.duplicated()]
@@ -46,17 +64,19 @@ class Match:
 
 
     def build_activity_frame(self):
-        act = Activity(last_name = 'nadal', year='2022')
-        df_act = act.get()
-        n = len(df_act)
         frames = []
-        for i in range(0, n, 3):
-            df = df_act[i+2]
-            df['tournament'] = df_act[i][1].iloc[0]
+        for p in [self.p1_lname, self.p2_lname]:
+            act = Activity(last_name = self.p1_lname, year='2022')
+            df_act = act.get()
+            n = len(df_act)
+            tourny_frames = []
+            for i in range(0, n, 3):
+                df = df_act[i+2]
+                df['tournament'] = df_act[i][1].iloc[0]
+                tourny_frames.append(df)
+            df = pd.concat(tourny_frames, axis=0, ignore_index=True)
             frames.append(df)
-        df = pd.concat(frames, axis=0, ignore_index=True)
-        # print(df)
-        return df
+        return frames[0], frames[1]
 
 
 

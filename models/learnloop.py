@@ -61,5 +61,6 @@ def learn(df):
         print('')
 
     match_data = pd.DataFrame(X_test.iloc[0]).transpose()
+    print('actuals:')
     print(match_data)
     print(results.iloc[match_data.index.values[0]])
