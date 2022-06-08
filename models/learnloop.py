@@ -8,10 +8,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import cross_val_score
 import pydotplus
 from sklearn import tree
-# from sklearn.exceptions import ConvergenceWarning
-# from sklearn.utils.testing import ignore_warnings
 
-# @ignore_warnings(category=ConvergenceWarning)
 def learn(df):
     """ Iterate through ml models to find the best one for a given dataset
         Assumes non numeric data is already encodeds
@@ -20,11 +17,6 @@ def learn(df):
     dep_vars = ['p1_result','p2_result']
     results = df[dep_vars]
 
-    df = df[[
-    'p1_result','p2_result',
-    'p1_hand', 'p1_rank','p1_ht', 'p1_ace','p1_svpt', 'p1_1stIn', 'p1_1stWon', 'p1_2ndWon', 'p1_SvGms', 'p1_bpSaved', 'p1_bpFaced', 
-    'p2_hand','p2_rank', 'p2_ht', 'p2_ace', 'p2_svpt', 'p2_1stIn', 'p2_1stWon', 'p2_2ndWon', 'p2_SvGms', 'p2_bpSaved', 'p2_bpFaced'
-    ]]
     features = [c for c in df.columns if c not in dep_vars]
 
     X = df[features]        # independent variables  
@@ -32,8 +24,7 @@ def learn(df):
 
     X_train, X_test, y_train, y_test = train_test_split(X, df.p1_result, test_size=0.3,random_state=11) # 70% training and 30% test
 
-    models = [LogisticRegression(random_state=100),  svm.SVC(kernel='linear'), KNeighborsClassifier(n_neighbors=3), DecisionTreeClassifier() ]
-
+    models = [LogisticRegression(),  svm.SVC(kernel='linear'), KNeighborsClassifier(n_neighbors=3), DecisionTreeClassifier() ]
     
     for model in models:
 
@@ -55,12 +46,3 @@ def learn(df):
         #     # print(graph)
         #     graph.write_png('models/mydecisiontree.png')
 
-        ypred = clf.predict(X_test.iloc[0].values.reshape(1, -1))
-        print(f'predit: {ypred}')    
-
-        print('')
-
-    match_data = pd.DataFrame(X_test.iloc[0]).transpose()
-    print('actuals:')
-    print(match_data)
-    print(results.iloc[match_data.index.values[0]])

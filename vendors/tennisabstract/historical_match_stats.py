@@ -12,6 +12,9 @@ pd.set_option('display.width', 1000)
 
 
 class HistoricalMatchStats():
+    '''
+    p1_result, p2_result |  1 = win; 0 = loss
+    '''
 
     def __init__(self, fname):
 
@@ -29,7 +32,7 @@ class HistoricalMatchStats():
     def one_hot_encoding(self, df):
         non_numerics = df.select_dtypes(include=['object']) 
         dummies = pd.get_dummies(non_numerics)    # one hot encoding
-        df.drop(non_numerics.columns, axis=1, inplace=True)
+        # df.drop(non_numerics.columns, axis=1, inplace=True)
         return pd.merge( left=df, right=dummies, left_index=True,right_index=True,)
     
     def cat_encoding(self, df):
@@ -96,6 +99,12 @@ class HistoricalMatchStats():
         winner, loser = self.winner_loser_split(df)
         return self.winner_loser_shuffle(self.winner_loser_rename(winner, loser))
 
+
+
+    def calculate_match_stats(self):
+        pass
+
+    
 
     def result_rows(self):
         '''

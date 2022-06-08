@@ -43,3 +43,4 @@ class Activity(Player):
         web.scrape()
         return web.scrape_table_to_df(elm = 'div', attrb='class', value='activity-tournament-table')
 
+

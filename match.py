@@ -75,7 +75,12 @@ class Match:
                 df['tournament'] = df_act[i][1].iloc[0]
                 tourny_frames.append(df)
             df = pd.concat(tourny_frames, axis=0, ignore_index=True)
+
+            # calculate recent activity stats
+            # df['recent_activity'] = act.calculate_xyz()
+            
             frames.append(df)
+        
         return frames[0], frames[1]
 
 
