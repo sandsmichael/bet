@@ -16,9 +16,8 @@ class HistoricalMatchStats():
     p1_result, p2_result |  1 = win; 0 = loss
     '''
 
-    def __init__(self, fname):
+    def __init__(self, fp):
 
-        fp = os.path.join("/Users/michaelsands/code/vanilla/vanilla/vendors/tennisabstract/tennis_atp/", fname)
         self.df = pd.read_csv(fp)
 
         self.cols = [ 

@@ -30,34 +30,31 @@ class Match:
         return df
 
 
-    def build_win_loss_frame(self):
+    def build_win_loss_frame(self, p):
         frames = []
-        for p in [self.p1_lname, self.p2_lname]:
-            wl = WinLoss(last_name = p)
-            player_frames = [ wl.get_overall(), wl.get_pressure(), wl.get_environment(), wl.get_other() ]
-            df = pd.concat(player_frames, axis=0, ignore_index=True)
-            df.columns = ['index'] + [f'{p}_{c}' for c in df.columns if c != 'index']
+        wl = WinLoss(last_name = p)
+        player_frames = [ wl.get_overall(), wl.get_pressure(), wl.get_environment(), wl.get_other() ]
+        df = pd.concat(player_frames, axis=0, ignore_index=True)
+        df.columns = ['index'] + [f'{p}_{c}' for c in df.columns if c != 'index']
 
-            split_list = ['_ytd', '_career']
-            for s in split_list:
-                label = f'{p}{s}'
-                new_label_win = f'{p}{s} win'
-                new_label_loss = f'{p}{s} loss'
-                df[[new_label_win, new_label_loss]] = df[label].str.split('-', 1, expand=True)
-                df.drop(label, axis=1, inplace=True)
-            
-            for c in df.columns:
-                try:
-                    df[c] = pd.to_numeric(df[c] )
-                except:
-                    pass
-            
-            cols = ['index'] + [p + c for c in ['_ytd pct','_ytd win','_ytd loss','_career pct','_career win','_career loss','_titles']]
-            df = df[cols]
+        split_list = ['_ytd', '_career']
+        for s in split_list:
+            label = f'{p}{s}'
+            new_label_win = f'{p}{s} win'
+            new_label_loss = f'{p}{s} loss'
+            df[[new_label_win, new_label_loss]] = df[label].str.split('-', 1, expand=True)
+            df.drop(label, axis=1, inplace=True)
+        
+        for c in df.columns:
+            try:
+                df[c] = pd.to_numeric(df[c] )
+            except:
+                pass
+        
+        cols = ['index'] + [p + c for c in ['_ytd pct','_ytd win','_ytd loss','_career pct','_career win','_career loss','_titles']]
+        df = df[cols]
 
-            frames.append(df)
-        df = pd.concat(frames, axis=1)
-        df = df.loc[:,~df.columns.duplicated()]
+        frames.append(df)
         df.set_index('index', inplace=True)
         # print(df)
         return df
@@ -66,7 +63,7 @@ class Match:
     def build_activity_frame(self):
         frames = []
         for p in [self.p1_lname, self.p2_lname]:
-            act = Activity(last_name = self.p1_lname, year='2022')
+            act = Activity(last_name = p, year='2022')
             df_act = act.get()
             n = len(df_act)
             tourny_frames = []
@@ -76,8 +73,6 @@ class Match:
                 tourny_frames.append(df)
             df = pd.concat(tourny_frames, axis=0, ignore_index=True)
 
-            # calculate recent activity stats
-            # df['recent_activity'] = act.calculate_xyz()
             
             frames.append(df)
         
