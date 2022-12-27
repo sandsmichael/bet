@@ -13,4 +13,4 @@ def collect_player_ids():
     ids.to_csv(fp_player_ids, index=False)
     print('[SUCCESS] ATP player IDs written to {}'.format(fp_player_ids))
 
-collect_player_ids()
+# collect_player_ids()
